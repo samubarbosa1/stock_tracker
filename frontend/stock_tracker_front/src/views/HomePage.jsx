@@ -1,7 +1,7 @@
 import { Grid, Typography, TextField, MenuItem } from "@mui/material";
 import StockSelectionPaper from "../components/StockSelectionPaper";
 
-export default function InitialPage() {
+export default function HomePage() {
   return (
     <Grid container padding={9} spacing={15}>
       <Grid item xs={12} md={5}>
