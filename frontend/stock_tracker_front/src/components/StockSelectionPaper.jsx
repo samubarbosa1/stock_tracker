@@ -1,10 +1,12 @@
-import {Typography, TextField, MenuItem, Paper, Box } from "@mui/material";
+import {Typography, TextField, MenuItem, Paper, Box, Button, CircularProgress, LinearProgress} from "@mui/material";
 import { useState } from "react";
+import fetchStockRegister from "../apiCalls/calls/fetchStockRegister";
 
 export default function StockSelectionPaper() {
   const [stock,setStock] = useState("EUR");
   const [minValue,setMinValue] = useState("")
   const [maxValue,setMaxValue] = useState("")
+  const [isLoading, setIsLoading] = useState(false);
 
   const stocks = [
     {
@@ -23,47 +25,88 @@ export default function StockSelectionPaper() {
       value: "RAIZ4",
       label: "RAIZ4",
     },
+    {
+      value: "ABEV3.SA",
+      label: "ABEV3.SA",
+    },
+    {
+      value: "USIM5",
+      label: "USIM5",
+    },
   ];
+
+const [formData, setFormData] = useState({
+  stock: '',
+  minValue: '',
+  maxValue: '',
+});
+
+const handleInputChange = (event) => {
+  const { name, value } = event.target;
+  setFormData({ ...formData, [name]: value });
+};
+
+const handleSubmit = (event) => {
+  event.preventDefault();
+  setIsLoading(true);
+  fetchStockRegister(formData.stock,
+    formData.minValue,
+    formData.maxValue,
+    setIsLoading
+    );
+};
+
   return (
-    <Paper sx={{ p: 6 }}>
-      <Box sx={{display:"flex", flexDirection:"row"}}>
-        <Typography variant="h6" sx={{mr:1, position:"relative", bottom:"0.1rem"}}>Ação:</Typography>
-        <TextField
-          id="Stocker-Selector"
-          select
-          helperText="Selecione a ação da B3"
-          variant="standard"
-          value={stock}
-          onChange={(e)=>{setStock(e.target.value)}}
-        >
-          {stocks.map((option) => (
-            <MenuItem key={option.value} value={option.value}>
-              {option.label}
-            </MenuItem>
-          ))}
-        </TextField>
-      </Box>
-      <Box sx={{display:"flex", flexDirection:"row"}}>
-        <Typography variant="h6" sx={{mr:1, position:"relative", }}>Valor Mínimo:</Typography>
-        <TextField 
-          id="bottom-value" 
-          helperText="Exemplo: 5,50"
-          variant="standard"
-          value={minValue}
-          onChange={(e) =>{setMinValue(e.target.value)}}
-          sx={{maxWidth:'50%'}}
-        />
-      </Box>
-      <Box sx={{display:"flex", flexDirection:"row"}}>
-        <Typography variant="h6" sx={{mr:1, position:"relative",}}>Valor Máximo:</Typography>
-        <TextField 
-          id="top-value" 
-          helperText="Exemplo: 40,10"
-          variant="standard"
-          value={maxValue}
-          onChange={(e) =>{setMaxValue(e.target.value)}}
-        />
-      </Box>
-    </Paper>
+    <form onSubmit={handleSubmit}>
+      <Paper sx={{ p: 6 }}>
+        <Box sx={{display:"flex", flexDirection:"row"}}>
+          <Typography variant="h6" sx={{mr:1, position:"relative", bottom:"0.1rem"}}>Ação:</Typography>
+          <TextField
+            id="Stock"
+            select
+            name="stock"
+            helperText="Selecione a ação da B3"
+            variant="standard"
+            value={formData.stock}
+            onChange={handleInputChange}
+          >
+            {stocks.map((option) => (
+              <MenuItem key={option.value} value={option.value}>
+                {option.label}
+              </MenuItem>
+            ))}
+          </TextField>
+        </Box>
+        <Box sx={{display:"flex", flexDirection:"row"}}>
+          <Typography variant="h6" sx={{mr:1, position:"relative", }}>Valor Mínimo:</Typography>
+          <TextField 
+            id="minValue"
+            name="minValue" 
+            helperText="Exemplo: 5.50"
+            variant="standard"
+            value={formData.minValue}
+            onChange={handleInputChange}
+            sx={{maxWidth:'50%'}}
+          />
+        </Box>
+        <Box sx={{display:"flex", flexDirection:"row"}}>
+          <Typography variant="h6" sx={{mr:1, position:"relative",}}>Valor Máximo:</Typography>
+          <TextField 
+            id="maxValue"
+            name="maxValue" 
+            helperText="Exemplo: 40.10"
+            variant="standard"
+            value={formData.maxValue}
+            onChange={handleInputChange}
+          />
+        </Box>
+        <Box sx={{display:"flex", flexDirection:"column"}}>
+        <Button variant="contained" type="submit" disabled={isLoading} sx={{marginX:"auto"}}> 
+          Monitorar
+        </Button>
+        </Box>
+      </Paper>
+    </form>
   );
 }
+
