@@ -1,10 +1,13 @@
 from django.http import JsonResponse
+from django.core.mail import send_mail
+from django.conf import settings
 from .models import FinanceApi, Stock
 from functools import wraps
 import json
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
+from stock_tracker_project.settings import EMAIL_HOST_USER
 
 @api_view(['GET'])
 def get_stock_historical(request):
@@ -48,4 +51,24 @@ def register_stock(request):
     except Exception as exp:
         print(exp)
         return JsonResponse({'detail':f'Exceção: {exp}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-    return Response({'message': f'Ação {data["stock"]} registrada com sucesso.'}, status=status.HTTP_201_CREATED)
+    return JsonResponse({'message': f'Ação {data["stock"]} registrada com sucesso.'}, status=status.HTTP_201_CREATED)
+
+
+@api_view(['POST'])
+def send_email(request):
+    data = request.data
+    print(EMAIL_HOST_USER)
+    try:
+        message = data.get('message')
+        email = data.get('email')
+        name = data.get('name')
+        send_mail(
+        name, #title
+        message, #message
+        'settings.EMAIL_HOST_USER', #sender
+        [email], #lista de emails
+        fail_silently=False)
+    except Exception as exp:
+        print(exp)
+        return JsonResponse({'detail':f'Exceção: {exp}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+    return JsonResponse({'message': 'email enviado'}, status=status.HTTP_200_OK)
