@@ -1,0 +1,59 @@
+version: "3.8"
+
+services:
+  redis:
+    image: redis:7.0.11-alpine
+
+  django:
+    container_name: django
+    volumes:
+      - ./backend:/app/django
+    env_file:
+      - ./settings.ini
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    depends_on:
+      - redis
+
+  celery_worker:
+    container_name: celery_worker
+    restart: always
+    command : celery -A stock_tracker_project worker -l INFO -Q email_tasks --purge
+    volumes:
+      - ./backend:/app/django
+    env_file:
+      - ./settings.ini
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile
+    depends_on:
+      - redis
+      - django
+
+  celery_beat:
+    container_name: celery_beat
+    restart: always
+    command : celery -A stock_tracker_project beat -l INFO
+    volumes:
+      - ./backend:/app/django
+    env_file:
+      - ./settings.ini
+    build:
+      context: ./backend/
+      dockerfile: Dockerfile
+    depends_on:
+      - redis
+      - django
+
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend/stock_tracker_front/
+      dockerfile: Dockerfile
+    volumes:
+      - ./frontend/stock_tracker_front:/app/frontend            
+    ports:
+      - 3000:80

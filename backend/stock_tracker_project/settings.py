@@ -13,18 +13,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-k#x2jdczxq&bzfx1g!v=*&1deq$(4v$r%ufp(36batpt&gi%y7'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-config = configparser.ConfigParser()
-config.read('settings.ini')
-
 DEBUG = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
 EMAIL_PORT = 587
-EMAIL_HOST_USER = config.get('email','EMAIL_HOST_USER')
-EMAIL_HOST_PASSWORD = config.get('email','EMAIL_HOST_PASSWORD')
-ALLOWED_HOSTS = []
-EMAIL_RECEIVER = config.get('email','EMAIL_RECEIVER')
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+ALLOWED_HOSTS = ['0.0.0.0']
+EMAIL_RECEIVER = os.environ.get('EMAIL_RECEIVER')
 
 # Application definition
 
@@ -128,5 +125,5 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-CELERY_BROKER_URL = 'redis://localhost:6379/0'
-CELERY_RESULT_BACKEND = 'redis://localhost:6379/0'
+CELERY_BROKER_URL = os.environ.get("CELERY_BROKER", "redis://redis:6379/0")
+CELERY_RESULT_BACKEND = os.environ.get("CELERY_BACKEND", "redis://redis:6379/0")
