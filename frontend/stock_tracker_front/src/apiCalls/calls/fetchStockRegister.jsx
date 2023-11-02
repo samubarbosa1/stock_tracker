@@ -13,7 +13,7 @@ function fetchStockRegister(
     setIsLoading,
   
   ) {
-    const url = "http://127.0.0.1:8000/register_stock";
+    const url = "http://localhost:8000/register_stock";
     fetch(url,{
       method: "POST",
       headers: { "Content-Type":"application/json" },

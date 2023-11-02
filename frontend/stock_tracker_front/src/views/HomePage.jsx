@@ -1,9 +1,9 @@
 import { Grid, Typography, TextField, MenuItem } from "@mui/material";
-import StockSelectionPaper from "../components/StockSelectionPaper";
+import StockTable from "../components/StockTable";
 
 export default function HomePage() {
   return (
-    <Grid container padding={9} spacing={15}>
+    <Grid container padding={7} spacing={15}>
       <Grid item xs={12} md={5}>
         <Typography marginBottom={2} variant="h2">
           Monitore as suas ações
@@ -14,7 +14,7 @@ export default function HomePage() {
         </Typography>
       </Grid>
       <Grid item xs={12} md={7}>
-        <StockSelectionPaper />
+        <StockTable />
       </Grid>
     </Grid>
   );
