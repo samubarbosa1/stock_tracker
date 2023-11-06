@@ -2,7 +2,7 @@
  * Deleta uma ação pelo nome
  * @param  {string} stockName - Nome da ação a ser deletada
  */
-function fetchDeleteStock(stockName) {
+function fetchDeleteStock(stockName, setRefresh) {
     const url = `http://localhost:8000/delete_stock`;
     fetch(url, {
       method: 'DELETE',
@@ -14,6 +14,7 @@ function fetchDeleteStock(stockName) {
       }),
     })
       .then(response => {
+        setRefresh(true);
         if (!response.ok) {
           throw new Error('Ocorreu um erro.');
         }

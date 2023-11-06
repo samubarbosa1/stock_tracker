@@ -34,7 +34,10 @@ const StockTableRow = ({stock, setRefresh}) => {
     }
 
     const handleDelete = () => {
-        fetchDeleteStock(formData.stock);
+        fetchDeleteStock(
+            formData.stock,
+            setRefresh,
+        );
     }
     return (
                 <TableRow key={stock.name}>
