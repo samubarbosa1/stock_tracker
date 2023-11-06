@@ -44,4 +44,4 @@ class FinanceApi():
         print(f'{stock=}')
         ticker = yf.Ticker(stock)
         stock_price = ticker.history(period='1d')['Close'].iloc[-1]
-        return stock_price
+        return f'{stock_price:.2f}'

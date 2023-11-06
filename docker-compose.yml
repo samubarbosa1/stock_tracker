@@ -47,7 +47,9 @@ services:
     depends_on:
       - redis
       - django
+      - celery_worker
 
+      
   frontend:
     container_name: frontend
     build:

@@ -14,10 +14,12 @@ function fetchStockRegister(
   
   ) {
     const url = "http://localhost:8000/register_stock";
+    let stockName = stock.endsWith('.SA') ? stock: stock.toUpperCase().concat('.SA');
+    console.log(stockName);
     fetch(url,{
       method: "POST",
       headers: { "Content-Type":"application/json" },
-      body: JSON.stringify({ stock: stock, min_price: minPrice, max_price: maxPrice }),
+      body: JSON.stringify({ stock: stockName, min_price: minPrice, max_price: maxPrice }),
     })
       .then((response) => {
         console.log("Ação registrada.")

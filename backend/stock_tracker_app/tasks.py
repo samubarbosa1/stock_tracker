@@ -23,7 +23,7 @@ def update_values():
 
 @app.task(queue = "email_tasks")
 def send_email(stocks_to_buy, stocks_to_sell):
-    message = "Olá,\nNós da Stock Tracker percebemos que houveram alterações do que podem ser do seu agrado.\n\n"
+    message = "Olá,\nNós da Stock Tracker percebemos que houveram alterações que podem ser do seu agrado.\n\n"
     if(any(stocks_to_buy)):
         message = message + "Ações cuja compra é recomendada:\n"
         for stock in stocks_to_buy:

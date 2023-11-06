@@ -35,6 +35,7 @@ export default function StockTable() {
                     <TableCell>Valor Mínimo</TableCell>
                     <TableCell>Valor Atual</TableCell>
                     <TableCell>Valor Máximo</TableCell>
+                    <TableCell>Opções</TableCell>
                 </TableRow>
                 </TableHead>
                 <TableBody>

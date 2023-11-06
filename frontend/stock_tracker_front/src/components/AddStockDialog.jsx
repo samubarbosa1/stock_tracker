@@ -1,4 +1,4 @@
-import {Typography, TextField, MenuItem, Paper, Box, Button, CircularProgress, LinearProgress, Dialog} from "@mui/material";
+import {Typography, TextField, MenuItem, Paper, Box, Button, CircularProgress, LinearProgress, Dialog, DialogTitle, DialogContent, DialogContentText} from "@mui/material";
 import { useState, useEffect } from "react";
 import fetchStockRegister from "../apiCalls/calls/fetchStockRegister";
 import fetchStockValue from "../apiCalls/calls/fetchStockValue";
@@ -28,16 +28,13 @@ export default function AddStockDialog({open, handleClose}) {
       );
   };
 
-  useEffect(() => {
-    fetchStockValue(formData.stock,setStockCurrentValue);
-  }, [formData.stock])
-
   return (
     <Dialog open={open} onClose={handleClose}>
+      <DialogTitle sx={{mx:'auto'}}>Adicione a ação a ser monitorada</DialogTitle>
       <form onSubmit={handleSubmit}>
-        <Paper sx={{ p: 6 }}>
-          <Box sx={{display:"flex", flexDirection:"row"}}>
-            <Typography variant="h6" sx={{mr:1, position:"relative", bottom:"0.1rem"}}>Ação:</Typography>
+        <DialogContent>
+          <Box sx={{display:"flex", flexDirection:"row", mb:2}}>
+            <Typography  sx={{mr:1, position:"relative", top:"0.2rem"}}>Ação:</Typography>
             <TextField
               id="Stock"
               name="stock"
@@ -45,12 +42,10 @@ export default function AddStockDialog({open, handleClose}) {
               variant="standard"
               value={formData.stock}
               onChange={handleInputChange}
-            >
-            </TextField>
-            <Typography variant="h6" ml={5}>Valor Atual (R$): {stockCurrentValue}</Typography>
+            />
           </Box>
-          <Box sx={{display:"flex", flexDirection:"row"}}>
-            <Typography variant="h6" sx={{mr:1, position:"relative", }}>Valor Mínimo:</Typography>
+          <Box sx={{display:"flex", flexDirection:"row", my:2}}>
+            <Typography  sx={{mr:1, position:"relative", top:"0.2rem" }}>Valor Mínimo:</Typography>
             <TextField 
               id="minValue"
               name="minValue" 
@@ -61,8 +56,8 @@ export default function AddStockDialog({open, handleClose}) {
               sx={{maxWidth:'50%'}}
             />
           </Box>
-          <Box sx={{display:"flex", flexDirection:"row"}}>
-            <Typography variant="h6" sx={{mr:1, position:"relative",}}>Valor Máximo:</Typography>
+          <Box sx={{display:"flex", flexDirection:"row", my:2}}>
+            <Typography  sx={{mr:1, position:"relative", top:"0.2rem"}}>Valor Máximo:</Typography>
             <TextField 
               id="maxValue"
               name="maxValue" 
@@ -77,7 +72,7 @@ export default function AddStockDialog({open, handleClose}) {
               Monitorar
             </Button>
           </Box>
-        </Paper>
+          </DialogContent>
       </form>
     </Dialog>
   );
