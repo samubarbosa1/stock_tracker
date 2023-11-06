@@ -1,9 +1,10 @@
 import { Grid, Typography, TextField, MenuItem } from "@mui/material";
 import StockTable from "../components/StockTable";
+import Footer from "../components/Footer";
 
 export default function HomePage() {
-  return (
-    <Grid container padding={7} spacing={15}>
+  return (  
+    <Grid container padding={7} spacing={15} sx={{height:'0%'}}>
       <Grid item xs={12} md={5}>
         <Typography marginBottom={2} variant="h2">
           Monitore as suas ações

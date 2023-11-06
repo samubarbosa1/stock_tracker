@@ -5,16 +5,15 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import fetchDeleteStock from "../apiCalls/calls/fetchDeleteStock";
 import fetchStockRegister from "../apiCalls/calls/fetchStockRegister";
 
-export default function StockTableRow(stock) {
+const StockTableRow = ({stock, setRefresh}) => {
     const [change, setChange] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
-
-
     const [formData, setFormData] = useState({
-        stock: stock.stock.name,
-        minPrice: stock.stock.min_price,
-        maxPrice: stock.stock.max_price,
-        price: stock.stock.price,
+        stock: stock.name,
+        minPrice: stock.min_price,
+        maxPrice: stock.max_price,
+        price: stock.price,
+        period:stock.period
       });
 
     const handleInputChange = (event) => {
@@ -27,6 +26,8 @@ export default function StockTableRow(stock) {
             formData.stock,
             formData.minPrice,
             formData.maxPrice,
+            formData.period,
+            setRefresh,
             setIsLoading
         );
         setChange(true);
@@ -36,7 +37,7 @@ export default function StockTableRow(stock) {
         fetchDeleteStock(formData.stock);
     }
     return (
-                <TableRow key={stock.stock.name}>
+                <TableRow key={stock.name}>
                     <TableCell>
                         <TextField
                             id="stock"
@@ -67,6 +68,16 @@ export default function StockTableRow(stock) {
                             sx={{maxWidth:'50%'}}
                             />
                     </TableCell>
+                    <TableCell>
+                        <TextField 
+                            id="period"
+                            name="period" 
+                            variant="standard"
+                            value={formData.period}
+                            onChange={handleInputChange}
+                            sx={{maxWidth:'50%'}}
+                            />
+                    </TableCell>
                     <TableCell sx={{display:'flex', flexDirection:'row'}}>
                         <Tooltip title="Salvar">
                             <span>
@@ -84,3 +95,5 @@ export default function StockTableRow(stock) {
                 </TableRow>
     )
 }
+
+export default StockTableRow;

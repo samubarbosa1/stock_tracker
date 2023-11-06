@@ -3,6 +3,7 @@ from celery.schedules import crontab
 import os
 from kombu import Queue
 
+
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'stock_tracker_project.settings')
 
 app = Celery("stock_tracker_project", timezone = 'America/Sao_Paulo')
@@ -14,8 +15,8 @@ app.conf.task_queues = (
 app.autodiscover_tasks()
 
 app.conf.beat_schedule = {
-    'add-every-30-seconds': {
+    'monitore': {
         'task': 'stock_tracker_app.tasks.update_values',
-        'schedule': crontab(minute='*/3',hour='8-17',day_of_week='1-6'),
+        'schedule': crontab(minute='*',hour='8-17',day_of_week='1-6'),
     },
 }

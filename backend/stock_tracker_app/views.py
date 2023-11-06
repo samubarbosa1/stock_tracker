@@ -60,6 +60,7 @@ def register_stock(request):
             stock = Stock(name=data.get("stock"))
         stock.min_price=data.get("min_price")
         stock.max_price=data.get("max_price")
+        stock.period=data.get("period")
         stock.price = price
         stock.save()
     except Exception as exp:

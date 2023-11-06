@@ -1,16 +1,15 @@
 import {Typography, TextField, MenuItem, Paper, Box, Button, CircularProgress, LinearProgress, Dialog, DialogTitle, DialogContent, DialogContentText} from "@mui/material";
 import { useState, useEffect } from "react";
 import fetchStockRegister from "../apiCalls/calls/fetchStockRegister";
-import fetchStockValue from "../apiCalls/calls/fetchStockValue";
 
-export default function AddStockDialog({open, handleClose}) {
+export default function AddStockDialog({open, handleClose, setRefresh}) {
   const [isLoading, setIsLoading] = useState(false);
-  const [stockCurrentValue, setStockCurrentValue] = useState('')
 
   const [formData, setFormData] = useState({
     stock: '',
     minValue: '',
     maxValue: '',
+    period: '',
   });
 
   const handleInputChange = (event) => {
@@ -24,12 +23,15 @@ export default function AddStockDialog({open, handleClose}) {
     fetchStockRegister(formData.stock,
       formData.minValue,
       formData.maxValue,
+      formData.period,
+      setRefresh,
       setIsLoading
       );
   };
 
   return (
-    <Dialog open={open} onClose={handleClose}>
+    <Box sx={{backgroundColor:'#Dcdcdf'}}>
+    <Dialog open={open} onClose={handleClose} >
       <DialogTitle sx={{mx:'auto'}}>Adicione a ação a ser monitorada</DialogTitle>
       <form onSubmit={handleSubmit}>
         <DialogContent>
@@ -67,6 +69,17 @@ export default function AddStockDialog({open, handleClose}) {
               onChange={handleInputChange}
             />
           </Box>
+          <Box sx={{display:"flex", flexDirection:"row", my:2}}>
+            <Typography  sx={{mr:1, position:"relative", top:"0.2rem"}}>Período de monitoramento (min):</Typography>
+            <TextField 
+              id="period"
+              name="period" 
+              helperText="Exemplo: 30"
+              variant="standard"
+              value={formData.period}
+              onChange={handleInputChange}
+            />
+          </Box>
           <Box sx={{display:"flex", flexDirection:"column"}}>
             <Button variant="contained" type="submit" disabled={isLoading} sx={{marginX:"auto"}}> 
               Monitorar
@@ -75,6 +88,7 @@ export default function AddStockDialog({open, handleClose}) {
           </DialogContent>
       </form>
     </Dialog>
+    </Box>
   );
 }
 

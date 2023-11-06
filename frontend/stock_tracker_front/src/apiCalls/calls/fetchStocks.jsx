@@ -6,7 +6,9 @@
 function fetchStocks(
     setStocks,
     setIsLoading,
+    setRefresh,
   ) {
+    setStocks([]);
     setIsLoading(true);
     const url = `http://localhost:8000/get_stocks`;
     fetch(url,{
@@ -22,9 +24,11 @@ function fetchStocks(
         })
         .then((data) => {
             setStocks(data.stocks);
+            setRefresh(false);
         })
         .catch((error) => {
             console.error(error);
+            setRefresh(false);
         });
   }
 

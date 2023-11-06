@@ -10,7 +10,9 @@ function fetchStockRegister(
     stock,
     minPrice,
     maxPrice,
-    setIsLoading,
+    period,
+    setRefresh,
+    setIsLoading
   
   ) {
     const url = "http://localhost:8000/register_stock";
@@ -19,10 +21,11 @@ function fetchStockRegister(
     fetch(url,{
       method: "POST",
       headers: { "Content-Type":"application/json" },
-      body: JSON.stringify({ stock: stockName, min_price: minPrice, max_price: maxPrice }),
+      body: JSON.stringify({ stock: stockName, min_price: minPrice, max_price: maxPrice, period: period }),
     })
       .then((response) => {
-        console.log("Ação registrada.")
+        setRefresh(true);
+        console.log("Ação registrada.");
         setIsLoading(false);
       })
       .catch((error) => {

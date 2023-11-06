@@ -49,7 +49,6 @@ services:
       - django
       - celery_worker
 
-      
   frontend:
     container_name: frontend
     build:
