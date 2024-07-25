@@ -1,9 +1,25 @@
 import { useState, useEffect } from "react";
 import fetchStocks from "../apiCalls/calls/fetchStocks";
 import StockTableRow from "./StockTableRow";
-import {Box, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow, Typography} from "@mui/material";
+import {
+    Box, 
+    Tooltip, 
+    IconButton, 
+    Paper, 
+    Table, 
+    TableBody, 
+    TableCell, 
+    TableContainer, 
+    TableHead, 
+    TableRow, 
+    TextField,
+    Container, 
+    Button
+} from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
+import VisibilityIcon from '@mui/icons-material/Visibility';
 import AddStockDialog from "./AddStockDialog";
+import StockChart from './StockChart';
 
 export default function StockTable() {
     const [isLoading, setIsLoading] = useState(false);
@@ -16,6 +32,7 @@ export default function StockTable() {
         console.log(stocks);
     },[refresh]);
 
+
     const handleOpenAddDialog = ()=>{
         setOpenAddDialog(true);
     }
@@ -25,9 +42,11 @@ export default function StockTable() {
     return (
         <>
             <Box display="flex">
-                <IconButton sx={{ml:'auto'}} ml='auto' onClick={handleOpenAddDialog}>
-                    <AddIcon sx={{ml:'auto'}}/>
-                </IconButton>
+                <Tooltip title="Adicionar ação">
+                    <IconButton sx={{ml:'auto'}} ml='auto' onClick={handleOpenAddDialog}>
+                        <AddIcon sx={{ml:'auto'}}/>
+                    </IconButton>
+                </Tooltip>
             </Box>
             <TableContainer sx={{maxHeight:400, backgroundColor:'#Dcdcdf'}} component={Paper}>
             <Table variant="soft" borderAxis="bothBetween">

@@ -11,17 +11,18 @@ from stock_tracker_project.settings import EMAIL_HOST_USER
     
 @api_view(['GET'])
 def get_stock_historical(request):
-    data = request.query_params
+    data = request.GET
     try: 
         api = FinanceApi
-        historical = api.get_stock_historical(stock=data.get('stock', None), start=data.get('start', None), end=data.get('end', None), interval=data.get('interval', None))
-        json_data = historical.to_json(orient='table')
-        parsed_json = json.loads(json_data)
-        data_field = parsed_json['data']
-        return JsonResponse({'data':data_field}, status=status.HTTP_200_OK)
+        historical = api.get_stock_historical(stock=data.get('stock'), period=data.get('period'))
+        data = {
+            "dates": historical.index.strftime('%Y-%m-%d').tolist(),
+            "prices": historical['Close'].tolist()
+        }
+        return JsonResponse(data)
     except Exception as exp:
         print(exp)
-        return JsonResponse({'detail':f'Exceção: {exp}'}, status=status.HTTP_404_NOT_FOUND)
+        return Response({'detail':f'Exceção: {exp}'}, status=status.HTTP_404_NOT_FOUND)
     
 
 @api_view(['GET'])

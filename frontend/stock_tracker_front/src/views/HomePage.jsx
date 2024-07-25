@@ -1,6 +1,6 @@
-import { Grid, Typography, TextField, MenuItem } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import StockTable from "../components/StockTable";
-import Footer from "../components/Footer";
+import Dashboard from "../components/Dashboard";
 
 export default function HomePage() {
   return (  
@@ -16,6 +16,9 @@ export default function HomePage() {
       </Grid>
       <Grid item xs={12} md={7}>
         <StockTable />
+      </Grid>
+      <Grid item xs={12} md={12}>
+        <Dashboard />
       </Grid>
     </Grid>
   );

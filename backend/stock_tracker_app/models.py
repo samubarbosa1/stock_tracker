@@ -35,9 +35,9 @@ class StocksManager(models.Model):
 class FinanceApi():
 
     @classmethod
-    def get_stock_historical(self, stock, start, end, interval):
+    def get_stock_historical(self, stock, period):
         ticker = yf.Ticker(stock)
-        stock_historical = ticker.history(start = start, end=end, interval=interval)
+        stock_historical = ticker.history(period)
         return stock_historical
     
     @classmethod

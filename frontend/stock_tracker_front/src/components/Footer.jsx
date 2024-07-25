@@ -2,7 +2,7 @@ import { Box, Typography } from "@mui/material";
 
 export default function Footer(){
     return(
-        <Box sx={{ position: "fixed",
+        <Box sx={{
                     left: 0,
                     bottom: 0,
                     width: "100%",
@@ -10,7 +10,7 @@ export default function Footer(){
                     textAlign: "center",
                     padding: "10px 0",
                 }}>
-            <Typography>CopyRight 2023 Samuel Barbosa. All Rights Reseved</Typography>
+            <Typography>CopyRight 2023 Samuel Barbosa. All Rights Reserved</Typography>
         </Box>
     )
 }

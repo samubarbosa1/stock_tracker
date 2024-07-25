@@ -17,3 +17,10 @@ Content-Type: application/json
 Authorization: Token b7a3f39d50194f7a83e14da3c217e75a208b9c5b
 
 {}
+
+###
+
+GET http://127.0.0.1:8000/get_stock_historical
+Content-Type: application/json
+
+{"stock":"petr4.sa", "period":"1mo"}

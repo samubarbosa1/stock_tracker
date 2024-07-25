@@ -55,6 +55,7 @@ services:
       context: ./frontend/stock_tracker_front/
       dockerfile: Dockerfile
     volumes:
-      - ./frontend/stock_tracker_front:/app/frontend            
+      - ./frontend/stock_tracker_front:/app/frontend    
+      - /app/node_modules
     ports:
       - 3000:80

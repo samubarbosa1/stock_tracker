@@ -19,8 +19,7 @@ function fetchStockValue(
             return response.json();
         })
         .then((data) => {
-            console.log(data.data.value)
-            setStockCurrentValue(data.data.value)
+            setStockCurrentValue(data.data.value);
         })
         .catch((error) => {
             console.error(error);

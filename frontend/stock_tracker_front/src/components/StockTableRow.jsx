@@ -1,4 +1,4 @@
-import { IconButton, TableCell, TextField, TableRow, Tooltip } from "@mui/material";
+import { IconButton, TableCell, TextField, TableRow, Tooltip, Container, Button} from "@mui/material";
 import { useState } from "react";
 import SaveIcon from '@mui/icons-material/Save';
 import DeleteIcon from '@mui/icons-material/Delete';
@@ -6,6 +6,7 @@ import fetchDeleteStock from "../apiCalls/calls/fetchDeleteStock";
 import fetchStockRegister from "../apiCalls/calls/fetchStockRegister";
 
 const StockTableRow = ({stock, setRefresh}) => {
+
     const [change, setChange] = useState(true);
     const [isLoading, setIsLoading] = useState(false);
     const [formData, setFormData] = useState({
@@ -39,6 +40,7 @@ const StockTableRow = ({stock, setRefresh}) => {
             setRefresh,
         );
     }
+
     return (
                 <TableRow key={stock.name}>
                     <TableCell>
@@ -94,8 +96,11 @@ const StockTableRow = ({stock, setRefresh}) => {
                                 <DeleteIcon/>
                             </IconButton>
                         </Tooltip>
+    
                     </TableCell>
+                    
                 </TableRow>
+
     )
 }
 
