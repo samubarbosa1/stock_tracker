@@ -1,29 +1,78 @@
 from django.http import JsonResponse
 from django.core.mail import send_mail
 from django.conf import settings
-from .models import FinanceApi, Stock
+from django.shortcuts import get_object_or_404
+from .models import FinanceApi, Stock, StockPriceThreshold
 from functools import wraps
 import json
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework import status
 from stock_tracker_project.settings import EMAIL_HOST_USER
+from datetime import datetime
     
 @api_view(['GET'])
 def get_stock_historical(request):
     data = request.GET
     try: 
         api = FinanceApi
-        historical = api.get_stock_historical(stock=data.get('stock'), period=data.get('period'))
+        stock_name = data.get('stock')
+        period = data.get('period')
+
+        historical = api.get_stock_historical(stock=stock_name, period=period)
+        historical_dates = historical.index.strftime('%Y-%m-%d').tolist()
+        historical_prices = historical['Close'].tolist()
+
+        stock = get_object_or_404(Stock, name=stock_name)
+        thresholds = StockPriceThreshold.objects.filter(stock=stock).order_by('date_set')
+
+        min_values,max_values = calculate_threshold_list(thresholds, historical_dates)
+
         data = {
-            "dates": historical.index.strftime('%Y-%m-%d').tolist(),
-            "prices": historical['Close'].tolist()
+            "dates": historical_dates,
+            "prices": historical_prices,
+            "min_values": min_values,
+            "max_values": max_values
         }
+
         return JsonResponse(data)
     except Exception as exp:
         print(exp)
         return Response({'detail':f'Exceção: {exp}'}, status=status.HTTP_404_NOT_FOUND)
     
+
+def calculate_threshold_list(thresholds, historical_dates):
+    list_size = len(historical_dates)
+    thresholds_size = len(thresholds)
+
+    min_values = [None] * list_size
+    max_values = [None] * list_size
+
+    thresholds_dates = [threshold.date_set.strftime('%Y-%m-%d') for threshold in thresholds]
+
+    is_min_date = False
+    j = 0
+
+    for i, date in enumerate(historical_dates):
+        while j < thresholds_size:
+            if(date >= thresholds_dates[j]):
+                if(not is_min_date):
+                    is_min_date = True
+                    if(j>0):
+                        for k in range (0, i):
+                            min_values[k] = thresholds[j-1].min_price
+                            max_values[k] = thresholds[j-1].max_price
+                min_values[i] = thresholds[j].min_price
+                max_values[i] = thresholds[j].max_price
+                j = j+1
+                break
+            else:
+                if(is_min_date):
+                    min_values[i] = thresholds[j].min_price
+                    max_values[i] = thresholds[j].max_price
+                    break
+
+    return min_values, max_values
 
 @api_view(['GET'])
 def get_stock_current_value(request):
@@ -64,6 +113,12 @@ def register_stock(request):
         stock.period=data.get("period")
         stock.price = price
         stock.save()
+        stock_threshold = StockPriceThreshold(stock = stock)
+        stock_threshold.min_price = stock.min_price
+        stock_threshold.max_price = stock.max_price
+        stock_threshold.date_set = datetime.now()
+        stock_threshold.save()
+
     except Exception as exp:
         print(exp)
         return JsonResponse({'detail':f'Exceção: {exp}'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

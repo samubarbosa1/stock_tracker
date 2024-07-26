@@ -3,7 +3,7 @@ import { LineChart } from '@mui/x-charts/LineChart';
 import { Card, CardContent, Typography, CircularProgress } from '@mui/material';
 import fetchStockChart from '../apiCalls/calls/fetchStockChart';
 
-const StockChart = ({ symbol }) => {
+const StockChart = ({ symbol, period }) => {
   const [chartData, setChartData] = useState(null);
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -14,16 +14,19 @@ const StockChart = ({ symbol }) => {
       setChartData: (data) => {
         setChartData({
             dates: data.dates,
-            prices: data.prices
+            prices: data.prices,
+            minValues: data.min_values,
+            maxValues: data.max_values
         });
         setLoading(false);
       },
       symbol,
+      period
     }).catch((error) => {
       setError(error.message);
       setLoading(false);
     });
-  }, [symbol]);
+  }, [symbol, period]);
 
   if (loading) {
     return (
@@ -65,8 +68,11 @@ const StockChart = ({ symbol }) => {
         <LineChart
             width={600}
             height={400}
+            yAxis={[{ min: Math.min(...chartData.prices)*0.95, max: Math.max(...chartData.prices)*1.05}]}
             series={[
-            {data: chartData.prices},
+            {id: 'prices',  showMark: false, label:'Preço', data: chartData.prices},
+            {id: 'minValue', showMark: false, label:'Valor Mínimo', data: chartData.minValues},
+            {id: 'maxValue', showMark: false, label:'Valor Máximo', data: chartData.maxValues}
             ]}
             xAxis={[{ 
                 data: chartData.dates,

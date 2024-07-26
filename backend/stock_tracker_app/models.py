@@ -20,6 +20,17 @@ class Stock(models.Model):
         app_label = 'stock_tracker_app'
 
 
+class StockPriceThreshold(models.Model):
+    stock = models.ForeignKey(Stock, on_delete=models.CASCADE)
+    min_price = models.DecimalField(max_digits=10, decimal_places=2)
+    max_price = models.DecimalField(max_digits=10, decimal_places=2)
+    date_set = models.DateTimeField()
+
+    class Meta:
+        app_label = 'stock_tracker_app'
+        verbose_name_plural = 'Stock Price Thresholds'
+
+
 """model para gerenciar as ações que serão monitoradas"""
 class StocksManager(models.Model):
     stock_list = JSONField(default=list, blank=True, null=True)

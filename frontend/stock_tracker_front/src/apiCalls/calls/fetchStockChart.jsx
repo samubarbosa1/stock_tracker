@@ -2,9 +2,10 @@
  * Obtém as informações das ações
  * @param  {function} setChartData - Função para setar o valor dos históricos da ação
  * @param  {string} symbol - simbolo da ação 
+ * @param  {string} period - período de análise da ação
  */
-function fetchStockChart({ setChartData, symbol }) {
-    const url = `http://localhost:8000/get_stock_historical?stock=${symbol}&period=1mo`;
+function fetchStockChart({ setChartData, symbol, period }) {
+    const url = `http://localhost:8000/get_stock_historical?stock=${symbol}&period=${period}`;
   
     return fetch(url, {
       method: "GET",
@@ -12,12 +13,14 @@ function fetchStockChart({ setChartData, symbol }) {
         "Content-Type": "application/json",
       },
     })
-      .then((response) => response.json()) // Ensure response is parsed as JSON
+      .then((response) => response.json())
       .then((data) => {
-        console.log(data);  // Log the data to verify its structure
+        console.log(data);  
         setChartData({
-          dates: data.dates.map(date => new Date(date)),  // Ensure dates are Date objects
+          dates: data.dates.map(date => new Date(date)),
           prices: data.prices,
+          min_values: data.min_values,
+          max_values: data.max_values
         });
       })
       .catch((error) => {
