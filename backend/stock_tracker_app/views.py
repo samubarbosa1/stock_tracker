@@ -28,11 +28,16 @@ def get_stock_historical(request):
 
         min_values,max_values = calculate_threshold_list(thresholds, historical_dates)
 
+        below_min_count = sum(price < min_val for price, min_val in zip(historical_prices, min_values))
+        above_max_count = sum(price > max_val for price, max_val in zip(historical_prices, max_values))
+
         data = {
             "dates": historical_dates,
             "prices": historical_prices,
             "min_values": min_values,
-            "max_values": max_values
+            "max_values": max_values,
+            "below_min_count": below_min_count,
+            "above_max_count": above_max_count
         }
 
         return JsonResponse(data)

@@ -20,7 +20,9 @@ function fetchStockChart({ setChartData, symbol, period }) {
           dates: data.dates.map(date => new Date(date)),
           prices: data.prices,
           min_values: data.min_values,
-          max_values: data.max_values
+          max_values: data.max_values,
+          belowMinCount: data.below_min_count,
+          aboveMaxCount: data.above_max_count
         });
       })
       .catch((error) => {

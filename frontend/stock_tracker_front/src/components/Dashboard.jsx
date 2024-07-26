@@ -25,18 +25,6 @@ const periods = [
       value: '6mo',
       label: '6 meses',
     },
-    {
-      value: '1y',
-      label: '1 ano',
-    },
-    {
-        value: '2y',
-        label: '2 anos',
-    },
-    {
-        value: 'ytd',
-        label: 'ano atual',
-    },
   ];
 
 export default function Dashboard() {
@@ -71,12 +59,19 @@ export default function Dashboard() {
             <Grid container padding={2} spacing={2}>
                 <Grid item xs={12} sx={{my:0}}>
                     <TextField
+                        id='name'
                         label="Ação"
-                        value={inputSymbol}
+                        select
+                        defaultValue="PETR4.SA"
                         onChange={handleInputChange}
-                        variant="outlined"
-                        helperText="Selecione a ação. Ex: HAPV3.SA"
-                    />
+                        helperText="Selecione a ação."
+                    >
+                        {stocks.map((option) => (
+                            <MenuItem key={option.name} value={option.name} >
+                            {option.name}
+                            </MenuItem>
+                        ))}
+                    </TextField>
                     <TextField
                         id="period"
                         select
@@ -97,7 +92,7 @@ export default function Dashboard() {
                         </IconButton>
                     </Tooltip>
                 </Grid>
-            <Grid item sm={12} md={6}>
+            <Grid item sm={12}>
                 <StockChart symbol={symbol} period={period} />
             </Grid>
             </Grid>

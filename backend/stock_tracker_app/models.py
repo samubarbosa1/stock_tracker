@@ -48,8 +48,29 @@ class FinanceApi():
     @classmethod
     def get_stock_historical(self, stock, period):
         ticker = yf.Ticker(stock)
-        stock_historical = ticker.history(period)
+        interval = self.calculate_interval(period)
+        stock_historical = ticker.history(period=period, interval=interval)
         return stock_historical
+    
+    @staticmethod
+    def calculate_interval(period):
+        period_interval_map = {
+            '1d': '1d', 
+            '5d': '1d', 
+            '1mo': '1d', 
+            '3mo': '5d',  
+            '6mo': '1wk', 
+            '1y': '1wk',  
+            '2y': '1mo', 
+            '5y': '1mo',  
+            '10y': '3mo',  
+            'ytd': '1d',  
+            'max': '3mo'  
+        }
+        
+
+        return period_interval_map.get(period, '1d') 
+
     
     @classmethod
     def get_stock_current_value(self, stock):
