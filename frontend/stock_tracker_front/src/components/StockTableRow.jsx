@@ -52,7 +52,7 @@ const StockTableRow = ({stock, setRefresh}) => {
                             onChange={handleInputChange}
                             />
                     </TableCell>
-                    <TableCell>
+                    <TableCell sx={{width:'15%'}}>
                         <TextField 
                             id="minPrice"
                             name="minPrice" 
@@ -63,7 +63,7 @@ const StockTableRow = ({stock, setRefresh}) => {
                             />
                     </TableCell>
                     <TableCell sx={{fontSize:16}}>{formData.price}</TableCell>
-                    <TableCell>
+                    <TableCell sx={{width:'15%'}}>
                         <TextField 
                             id="maxPrice"
                             name="maxPrice" 
@@ -73,7 +73,7 @@ const StockTableRow = ({stock, setRefresh}) => {
                             sx={{maxWidth:'50%'}}
                             />
                     </TableCell>
-                    <TableCell>
+                    <TableCell sx={{width:'15%'}}>
                         <TextField 
                             id="period"
                             name="period" 

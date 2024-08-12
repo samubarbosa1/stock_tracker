@@ -12,14 +12,9 @@ import {
     TableContainer, 
     TableHead, 
     TableRow, 
-    TextField,
-    Container, 
-    Button
 } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
-import VisibilityIcon from '@mui/icons-material/Visibility';
 import AddStockDialog from "./AddStockDialog";
-import StockChart from './StockChart';
 
 export default function StockTable() {
     const [isLoading, setIsLoading] = useState(false);
@@ -48,7 +43,7 @@ export default function StockTable() {
                     </IconButton>
                 </Tooltip>
             </Box>
-            <TableContainer sx={{maxHeight:400, backgroundColor:'#Dcdcdf'}} component={Paper}>
+            <TableContainer sx={{maxHeight:400, minHeight:400, backgroundColor:'#Dcdcdf'}} component={Paper}>
             <Table variant="soft" borderAxis="bothBetween">
                 <TableHead>
                 <TableRow>
