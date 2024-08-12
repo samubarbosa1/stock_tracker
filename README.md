@@ -7,7 +7,7 @@ Aplicação para monitorar ações na bolsa de valores.
 ## Vídeo do Funcionamento
 
 Vídeo da aplicação sendo executada:
-[Stock Tracker](https://drive.google.com/file/d/1CS3aGx4WKLEXnJtUQZFfeGMBvpUcT1Mj/view?usp=sharing)
+[Stock Tracker](https://drive.google.com/file/d/1JEbTf_CE_9OFPZ1h_UgodBAcTREubKJT/view?usp=sharing)
 
 ## Passos de instalação
 ### Passo 1:
